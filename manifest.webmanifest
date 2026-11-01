@@ -1,0 +1,14 @@
+{
+  "name": "Modo Carreira Manager",
+  "short_name": "Carreira",
+  "description": "Gestor de modo carreira para EA SPORTS FC 27 — grátis, offline e sem login.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

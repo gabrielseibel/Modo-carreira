@@ -1,0 +1,38 @@
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Atualizar branch gh-pages com a main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git fetch origin gh-pages || true
+          if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
+            git checkout -B gh-pages origin/gh-pages
+            git checkout "$GITHUB_SHA" -- .
+            rm -rf .github
+            git add -A
+            git diff --cached --quiet || git commit -m "Deploy ${GITHUB_SHA}"
+          else
+            git checkout -B gh-pages
+            git rm -rq .github
+            git commit -m "Deploy ${GITHUB_SHA}"
+          fi
+          git push origin gh-pages
